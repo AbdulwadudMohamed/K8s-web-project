@@ -1,0 +1,3 @@
+For service ~$ k expose deployment k8s-web-hello --port=3000
+When connecting to pod use IP: 127.0.0.1 instead of minikube IP
+Enter command: minikube service k8s-web-hello --url

@@ -1,0 +1,29 @@
+#Automatically created through k8s extention on VSc using key word Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-web-hello
+
+#here specifies which pods will be managed by this deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-web-hello
+  
+  #setting labels for the pods
+  template:
+    metadata:
+      labels:
+        app: k8s-web-hello
+    #specify which containers we want to creat in this pod
+    spec:
+      containers:
+      - name: k8s-web-hello
+        image: abdulwadud/k8s-web-hello
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000

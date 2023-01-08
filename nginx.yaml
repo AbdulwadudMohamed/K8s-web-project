@@ -1,0 +1,44 @@
+#create new service called nginx - port with 80 mapped to enternal port 80 - where website is port 80 for nginx - service type is clusterip so only available internally
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+
+    
+#has to be 3 dashs to seperate service and deployment yaml files
+---
+
+#Automatically created through k8s extention on VSc using key word Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+
+#here specifies which pods will be managed by this deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  
+  #setting labels for the pods
+  template:
+    metadata:
+      labels:
+        app: nginx
+    #specify which containers we want to creat in this pod
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80

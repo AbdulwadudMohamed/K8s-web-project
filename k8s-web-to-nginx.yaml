@@ -1,0 +1,45 @@
+#Automatically generatted by extention using word Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-web-to-nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: k8s-web-to-nginx
+  ports:
+  - port: 3333
+    targetPort: 3000
+    
+#has to be 3 dashs to seperate service and deployment yaml files
+---
+
+#Automatically created through k8s extention on VSc using key word Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-web-to-nginx
+
+#here specifies which pods will be managed by this deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: k8s-web-to-nginx
+  
+  #setting labels for the pods
+  template:
+    metadata:
+      labels:
+        app: k8s-web-to-nginx
+    #specify which containers we want to creat in this pod
+    spec:
+      containers:
+      - name: k8s-web-to-nginx
+        image: abdulwadud/k8s-web-to-nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
